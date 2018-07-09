@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <lime/LimeSuite.h> // at C:\Program Files\PothosSDR\include
+#include "lime\LimeSuite.h" // at C:\Program Files\PothosSDR\include
 #include <string.h>
 #include <time.h>
 #ifdef WIN32
@@ -47,56 +47,56 @@
 //#define USE_GAMEPAD
 
 typedef struct {
-	char navfile[MAX_CHAR];
-	char umfile[MAX_CHAR];
-	int staticLocationMode;
-	int nmeaGGA;
-	int iduration;
-	int verb;
-	gpstime_t g0;
-	double llh[3];
-	int interactive;
-	int timeoverwrite;
-	int iono_enable;
+    char navfile[MAX_CHAR];
+    char umfile[MAX_CHAR];
+    int staticLocationMode;
+    int nmeaGGA;
+    int iduration;
+    int verb;
+    gpstime_t g0;
+    double llh[3];
+    int interactive;
+    int timeoverwrite;
+    int iono_enable;
 } option_t;
 
 typedef struct {
-	pthread_t thread;
-	pthread_mutex_t lock;
-	//int error;
+    pthread_t thread;
+    pthread_mutex_t lock;
+    //int error;
 
-	lms_stream_t stream;
-	int16_t *buffer;
+    lms_stream_t stream;
+    int16_t *buffer;
 } tx_t;
 
 typedef struct {
-	pthread_t thread;
-	pthread_mutex_t lock;
-	//int error;
+    pthread_t thread;
+    pthread_mutex_t lock;
+    //int error;
 
-	int ready;
-	pthread_cond_t initialization_done;
+    int ready;
+    pthread_cond_t initialization_done;
 } gps_t;
 
 typedef struct {
-	option_t opt;
+    option_t opt;
 
-	tx_t tx;
-	gps_t gps;
+    tx_t tx;
+    gps_t gps;
 
-	int status;
-	bool finished;
-	int16_t *fifo;
-	long head, tail;
-	size_t sample_length;
+    int status;
+    bool finished;
+    int16_t *fifo;
+    long head, tail;
+    size_t sample_length;
 
-	pthread_cond_t fifo_read_ready;
-	pthread_cond_t fifo_write_ready;
+    pthread_cond_t fifo_read_ready;
+    pthread_cond_t fifo_write_ready;
 
-	double time;
+    double time;
 } sim_t;
 
-extern void *gps_task(void *arg);
-extern int is_fifo_write_ready(sim_t *s);
+extern void *gps_task ( void *arg );
+extern int is_fifo_write_ready ( sim_t *s );
 
 #endif
